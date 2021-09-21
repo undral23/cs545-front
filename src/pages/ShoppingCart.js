@@ -1,0 +1,97 @@
+import { useSelector, useDispatch } from "react-redux"
+import { Table, Button, Row, Col } from "react-bootstrap";
+
+export const ShoppingCart = ({ history }) => {
+    const cartItems = useSelector(state => state.shoppingCart);
+    const total = useSelector(state => state.shoppingCart
+        .map(item => item.quantity * item.product.price)
+        .reduce((accumulator, currentValue) => accumulator + currentValue, 0));
+
+    const dispatch = useDispatch();
+
+    const checkAvailability = (productNumber) => {
+        const cartItem = cartItems.find(item => item.product.productNumber === productNumber);
+        const quantity = +cartItem.quantity + 1;
+        return quantity <= cartItem.product.numberInStock;
+    }
+
+    const handleRemove = (e) => {
+        dispatch({ type: 'removeProduct', cartItem: { product: { productNumber: e.target.value }, quantity: 1 } });
+    }
+
+    const handleIncrease = (e) => {
+        if (!checkAvailability(e.target.value)) {
+            alert('Quantity unavailable');
+            return;
+        }
+        dispatch({ type: 'addProduct', cartItem: { product: { productNumber: e.target.value }, quantity: 1 } });
+    }
+
+    const handleReduce = (e) => {
+        dispatch({ type: 'reduceQuantity', cartItem: { product: { productNumber: e.target.value }, quantity: 1 } });
+    }
+
+    const handleCheckout = (e) => {
+        history.push('/personal-info');
+    }
+
+    return (
+        <div>
+            <Row>
+                <Col>
+                    <h2>
+                        Shopping Cart
+                    </h2>
+                </Col>
+                <Col className="text-right">
+                    <Button type="button" onClick={handleCheckout}>Check out</Button>
+                </Col>
+            </Row>
+
+            <hr />
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {cartItems.map(item => (
+                        <tr key={item.product.productNumber}>
+                            <td>{item.product.productNumber}</td>
+                            <td>{item.product.name}</td>
+                            <td>${item.product.price}</td>
+                            <td>
+                                <Button className="mr-3" variant="danger"
+                                    value={item.product.productNumber}
+                                    onClick={handleReduce}>-</Button>
+                                {item.quantity}
+                                <Button className="ml-3" variant="success"
+                                    value={item.product.productNumber}
+                                    onClick={handleIncrease}>+</Button>
+
+                            </td>
+                            <td>${item.quantity * item.product.price}</td>
+                            <td><Button variant="danger"
+                                value={item.product.productNumber}
+                                onClick={handleRemove}>Remove</Button></td>
+                        </tr>
+                    ))}
+
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colSpan="6" className="text-right">
+                            <strong> Total: ${total}</strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </Table>
+        </div>
+    );
+}
