@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux';
 import { createStore } from "redux";
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -9,6 +8,10 @@ const initialState = {
     personalInfo: {},
     paymentInfo: {},
     isAuthenticated: Cookies.get('token') != null
+};
+
+axios.defaults.headers.common = {
+    'Authorization': 'Bearer ' + Cookies.get('token') || ''
 };
 
 const appReducer = (state = initialState, action) => {
