@@ -1,9 +1,14 @@
-import { createStore } from 'redux';
+import { useDispatch } from 'react-redux';
+import { createStore } from "redux";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+// import { authSlice } from './auth';
 
 const initialState = {
     shoppingCart: [],
     personalInfo: {},
-    paymentInfo: {}
+    paymentInfo: {},
+    isAuthenticated: Cookies.get('token') != null
 };
 
 const appReducer = (state = initialState, action) => {
@@ -71,7 +76,35 @@ const appReducer = (state = initialState, action) => {
         };
     }
 
+    // if (action.type == 'login') {
+    //     const userCred = action.payload;
+    //     const dispatch = useDispatch();
+        
+
+    //     // if (Cookies.get('token') != null) {
+    //     //     state.isAuthenticated = true
+    //     // }
+    // }
+
+    if(action.type == 'loginSuccess') {
+        Cookies.set('token', action.payload)
+        axios.defaults.headers.common = {
+            'Authorization': 'Bearer ' + action.payload
+        };
+        return { ...state, isAuthenticated: true };
+    }
+
+    if (action.type == 'logout') {
+        Cookies.remove('token')
+        axios.defaults.headers.common = {
+            'Authorization': ''
+        };
+        return { ...state, isAuthenticated: false }
+    }
+
     return state;
 }
+
 const store = createStore(appReducer);
+
 export default store;

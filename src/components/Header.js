@@ -2,10 +2,18 @@ import {
     NavLink
 } from "react-router-dom";
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 export const Header = () => {
     const cartItemCount = useSelector(state => state.shoppingCart.length);
+    const isAuthenticated = useSelector(state => state.isAuthenticated);
+
+    const dispatch = useDispatch();
+
+    const logoutHandler = () => {
+        dispatch({ type: 'logout' });
+    }
+
     return (
         <header>
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -39,7 +47,8 @@ export const Header = () => {
                         </ul>
                     </div>
                     <div className="text-light">
-                        Batdelger Otgonbaatar(612330)
+                        {isAuthenticated}
+                        {isAuthenticated ? (<button type="button" onClick={logoutHandler}>logout</button>) : (<NavLink to="/signin">Sign In</NavLink>)}
                     </div>
                 </div>
             </nav>
