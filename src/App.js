@@ -1,4 +1,5 @@
 import './App.css';
+import { Redirect } from 'react-router';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Header } from './components';
@@ -12,8 +13,8 @@ function App() {
         <Header />
         <main className="container">
           <Switch>
-            <Route path={["/", "buy"]} component={Shop} />
-            <Route path="/products" component={Products} />
+            <Redirect from="/" to="/buy"/>
+            <Route path="/products/" component={Products} />
             <Route path="/products/:id" component={ProductForm} />
             <Route path="/cart" component={ShoppingCart} />
             <Route path="/personal-info" component={PersonalInfo} />
@@ -22,6 +23,7 @@ function App() {
             <Route path="/orders" component={Orders} />
             <Route path="/signin" component={SignIn} />
             <Route path="/signup" component={SignUp} />
+            <Route path="/buy" component={Shop} />
           </Switch>
         </main>
       </Router>

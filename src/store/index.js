@@ -11,7 +11,7 @@ const initialState = {
 };
 
 axios.defaults.headers.common = {
-    'Authorization': 'Bearer ' + Cookies.get('token') || ''
+    'Authorization': 'Bearer ' + (Cookies.get('token') || '')
 };
 
 const appReducer = (state = initialState, action) => {

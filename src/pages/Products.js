@@ -20,9 +20,9 @@ export const Products = ({ history }) => {
         history.push('/products/new');
     }
 
-    const deleteProduct = async (productNumber) => {
+    const deleteProduct = async (id) => {
         if (window.confirm("Are you sure to delete?")) {
-            await axios.delete(`http://localhost:8080/products/${productNumber}`);
+            await axios.delete(`http://localhost:8080/products/${id}`);
             await loadProducts();
         }
     }
@@ -49,7 +49,7 @@ export const Products = ({ history }) => {
                 <thead>
                     <tr>
                         <th>Product #</th>
-                        <th>Name</th>
+                        <th>Title</th>
                         <th>Description</th>
                         <th>Price</th>
                         <th>Number in Stock</th>
@@ -58,18 +58,18 @@ export const Products = ({ history }) => {
                 </thead>
                 <tbody>
                     {products.map(p => (
-                        <tr key={p.productNumber}>
+                        <tr key={p.id}>
                             <td>
-                                <Link id={`link-${p.productNumber}`} to={'products/' + p.productNumber}>{p.productNumber}</Link>
+                                <Link id={`link-${p.id}`} to={'products/' + p.id}>{p.id}</Link>
                             </td>
-                            <td>{p.name}</td>
+                            <td>{p.title}</td>
                             <td>{p.description}</td>
                             <td>{p.price}</td>
                             <td>{p.numberInStock}</td>
                             <td><Button
-                                id={`btnDelete-${p.productNumber}`}
+                                id={`btnDelete-${p.id}`}
                                 variant="danger"
-                                value={p.productNumber}
+                                value={p.id}
                                 onClick={handleDelete}>Delete</Button></td>
                         </tr>
                     ))}

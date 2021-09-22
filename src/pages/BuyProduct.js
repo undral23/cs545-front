@@ -8,7 +8,7 @@ export const BuyProduct = (props) => {
     const { product } = props;
 
     const dispatch = useDispatch();
-    const cartItem = useSelector(state => state.shoppingCart.find(item => item.product.productNumber === product.productNumber));
+    const cartItem = useSelector(state => state.shoppingCart.find(item => item.product.id === product.id));
 
     const [buyInfo, setBuyInfo] = useState({
         product,
@@ -38,7 +38,7 @@ export const BuyProduct = (props) => {
 
         <div className="col-md-4">
             <Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src={productLogo} />
+                <Card.Img variant="top" src={product.image} />
                 <Card.Body>
                     <Card.Title>{product.name}</Card.Title>
                     <Card.Title className="text-primary">${product.price}</Card.Title>
@@ -53,7 +53,7 @@ export const BuyProduct = (props) => {
                     <Row>
                         <Col md="7">
                             <Form.Control
-                                id={`inputQuantity-${product.productNumber}`}
+                                id={`inputQuantity-${product.id}`}
                                 type="number"
                                 name="quantity"
                                 placeholder="Quantity"
@@ -62,7 +62,7 @@ export const BuyProduct = (props) => {
                                 onChange={handleFieldChange}
                             />
                         </Col>
-                        <Button id={`btnBuy-${product.productNumber}`} variant="primary" onClick={handleBuy}>Buy</Button>
+                        <Button id={`btnBuy-${product.id}`} variant="primary" onClick={handleBuy}>Buy</Button>
                     </Row>
 
                 </Card.Footer>
