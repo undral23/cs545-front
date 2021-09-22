@@ -72,7 +72,7 @@ export const ProductForm = ({ history }) => {
             <h2>Create/Edit Product</h2>
             <hr />
             <Row className="mb-3">
-                <Form.Group as={Col} md="4" controlId="txtProductNumber">
+                {/* <Form.Group as={Col} md="4" controlId="txtProductNumber">
                     <Form.Label>Product Number</Form.Label>
                     <Form.Control
                         required
@@ -84,15 +84,15 @@ export const ProductForm = ({ history }) => {
                         onChange={handleFieldChange}
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="4" controlId="txtName">
-                    <Form.Label>Name</Form.Label>
+                </Form.Group> */}
+                <Form.Group as={Col} md="4" controlId="txtTitle">
+                    <Form.Label>Title</Form.Label>
                     <Form.Control
                         required
                         type="text"
-                        placeholder="Name"
-                        name="name"
-                        value={product.name}
+                        placeholder="Title"
+                        name="title"
+                        value={product.title}
                         onChange={handleFieldChange}
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>

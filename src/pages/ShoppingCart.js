@@ -9,14 +9,14 @@ export const ShoppingCart = ({ history }) => {
 
     const dispatch = useDispatch();
 
-    const checkAvailability = (productNumber) => {
-        const cartItem = cartItems.find(item => item.product.productNumber === productNumber);
+    const checkAvailability = (id) => {
+        const cartItem = cartItems.find(item => item.product.id === id);
         const quantity = +cartItem.quantity + 1;
         return quantity <= cartItem.product.numberInStock;
     }
 
     const handleRemove = (e) => {
-        dispatch({ type: 'removeProduct', cartItem: { product: { productNumber: e.target.value }, quantity: 1 } });
+        dispatch({ type: 'removeProduct', cartItem: { product: { id: e.target.value }, quantity: 1 } });
     }
 
     const handleIncrease = (e) => {
@@ -24,11 +24,11 @@ export const ShoppingCart = ({ history }) => {
             alert('Quantity unavailable');
             return;
         }
-        dispatch({ type: 'addProduct', cartItem: { product: { productNumber: e.target.value }, quantity: 1 } });
+        dispatch({ type: 'addProduct', cartItem: { product: { id: e.target.value }, quantity: 1 } });
     }
 
     const handleReduce = (e) => {
-        dispatch({ type: 'reduceQuantity', cartItem: { product: { productNumber: e.target.value }, quantity: 1 } });
+        dispatch({ type: 'reduceQuantity', cartItem: { product: { id: e.target.value }, quantity: 1 } });
     }
 
     const handleCheckout = (e) => {
@@ -61,23 +61,23 @@ export const ShoppingCart = ({ history }) => {
                 </thead>
                 <tbody>
                     {cartItems.map(item => (
-                        <tr key={item.product.productNumber}>
-                            <td>{item.product.productNumber}</td>
-                            <td>{item.product.name}</td>
+                        <tr key={item.product.id}>
+                            <td>{item.product.id}</td>
+                            <td>{item.product.title}</td>
                             <td>${item.product.price}</td>
                             <td>
                                 <Button className="mr-3" variant="danger"
-                                    value={item.product.productNumber}
+                                    value={item.product.id}
                                     onClick={handleReduce}>-</Button>
                                 {item.quantity}
                                 <Button className="ml-3" variant="success"
-                                    value={item.product.productNumber}
+                                    value={item.product.id}
                                     onClick={handleIncrease}>+</Button>
 
                             </td>
                             <td>${item.quantity * item.product.price}</td>
                             <td><Button variant="danger"
-                                value={item.product.productNumber}
+                                value={item.product.id}
                                 onClick={handleRemove}>Remove</Button></td>
                         </tr>
                     ))}

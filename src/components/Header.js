@@ -25,7 +25,7 @@ export const Header = () => {
                     <div className="collapse navbar-collapse" id="navbarCollapse">
                         <ul className="navbar-nav me-auto mb-2 mb-md-0">
                             <li className="nav-item">
-                                <NavLink activeClassName="active" className="nav-link" to="/">Buy</NavLink>
+                                <NavLink activeClassName="active" className="nav-link" to="/buy">Buy</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink activeClassName="active" className="nav-link" to="/products">Products</NavLink>
