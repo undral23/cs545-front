@@ -38,7 +38,7 @@ export const ProductOverview = (props) => {
     return (
 
         <div className="col-md-4">
-            <Link to={`/buy/${product.id}`}>
+            <Link to={`/shop/${product.id}`}>
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src={product.image} />
                     <Card.Body>
