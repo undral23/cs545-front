@@ -17,7 +17,10 @@ export const Sellers = ({ history }) => {
 
         if (userDetails.roles === 'BUYER') {
             const fws = await loadFollowedSellers();
-            console.log(fws);
+            
+            data.forEach(r => {
+                r.followed = !!fws.find(f => f.user.username === r.user.username);
+            });
         }
 
         setSellers(data);
@@ -34,9 +37,16 @@ export const Sellers = ({ history }) => {
         }
     }
 
-    const followSeller = async (id) => {
-        if (window.confirm("Are you sure to approve the seller?")) {
-            await apiService.get(`admin/sellers/${id}`);
+    const followSeller = async (sellername) => {
+        if (window.confirm("Are you sure to follow the seller?")) {
+            await apiService.post(`buyer/${userDetails.username}/follow/${sellername}`);
+            await loadSellers();
+        }
+    }
+
+    const unfollowSeller = async (sellername) => {
+        if (window.confirm("Are you sure to unfollow the seller?")) {
+            await apiService.post(`buyer/${userDetails.username}/unfollow/${sellername}`);
             await loadSellers();
         }
     }
@@ -46,7 +56,11 @@ export const Sellers = ({ history }) => {
     }
 
     const handleFollow = (e) => {
-        approveSeller(e.target.value);
+        followSeller(e.target.value);
+    }
+
+    const handleUnfollow = (e) => {
+        unfollowSeller(e.target.value);
     }
 
     return (
@@ -87,8 +101,8 @@ export const Sellers = ({ history }) => {
                                         <Button
                                             id={`btnApprove-${p.id}`}
                                             variant="primary"
-                                            value={p.id}
-                                            onClick={handleFollow}>Follow</Button>
+                                            value={p.user.username}
+                                            onClick={p.followed ? handleUnfollow : handleFollow}>{p.followed ? (<>Unfollow</>) : (<>Follow</>)}</Button>
                                     ) : (
                                         <Button
                                             id={`btnApprove-${p.id}`}
