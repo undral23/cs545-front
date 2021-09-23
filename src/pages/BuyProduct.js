@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Card, Button, Row, Col, Form } from "react-bootstrap";
-import productLogo from '../product.svg';
 
 import { useDispatch, useSelector } from 'react-redux';
 

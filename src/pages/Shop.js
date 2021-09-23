@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import apiService from "../services/api.service";
 import { BuyProduct } from './BuyProduct';
 
 
 export const Shop = () => {
     const [products, setProducts] = useState([]);
     const loadProducts = async () => {
-        const resp = await axios.get('http://localhost:8080/products');
-        setProducts(resp.data);
+        const data = await apiService.get('products');
+        setProducts(data);
     }
 
     useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import "./SignIn.css"
+import apiService from '../../services/api.service';
 
 export const SignIn = (props) => {
     const dispatch = useDispatch();
@@ -12,9 +12,9 @@ export const SignIn = (props) => {
         const form = formData.current
         const userCredentials = { username: form['username'].value, password: form['password'].value };
 
-        axios.post('http://localhost:8080/auth', userCredentials)
+        apiService.post('auth', userCredentials, { successMessage: false })
             .then(response => {
-                dispatch({ type: 'loginSuccess', payload: response.data.jwt });
+                dispatch({ type: 'loginSuccess', payload: response.jwt });
                 props.history.push("/products");
             })
             .catch(err => console.log(err.message));

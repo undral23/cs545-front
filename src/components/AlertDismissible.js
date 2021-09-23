@@ -1,28 +1,45 @@
 
-import { useState } from "react";
-import { Alert, Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 
 export const AlertDismissible = () => {
-    const [show, setShow] = useState(true);
+
+    const dispatch = useDispatch();
+    const alerts = useSelector(state => state.alerts);
+
+    const handleClose = (id) => {
+        dispatch({ type: 'closeAlert', payload: id });
+    }
 
     return (
         <>
-            <Alert show={show} variant="success">
-                <Alert.Heading>How's it going?!</Alert.Heading>
-                <p>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
-                    lacinia odio sem nec elit. Cras mattis consectetur purus sit amet
-                    fermentum.
-                </p>
-                <hr />
-                <div className="d-flex justify-content-end">
-                    <Button onClick={() => setShow(false)} variant="outline-success">
-                        Close me y'all!
-                    </Button>
-                </div>
-            </Alert>
+            {alerts.map(alertOpt => {
+                const handleCloseFn = () => handleClose(alertOpt.id);
+                let contentClass = '';
+                switch (alertOpt.type) {
+                    case 'error':
+                        contentClass = 'text-danger';
+                        break;
+                    case 'success':
+                        contentClass = 'text-success';
+                        break;
+                    case 'info':
+                        contentClass = 'text-info';
+                        break;
 
-            {!show && <Button onClick={() => setShow(true)}>Show Alert</Button>}
-        </>
-    );
+
+                }
+                return (<Modal key={alertOpt.id} show={true} onHide={handleCloseFn} contentClassName={contentClass}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{alertOpt.title}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{alertOpt.body}</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={handleCloseFn}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>)
+            })}
+        </>);
 }

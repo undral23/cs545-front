@@ -1,10 +1,10 @@
 import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import {
     useParams
 } from "react-router-dom";
+import apiService from '../services/api.service';
 
 export const ProductForm = ({ history }) => {
     const [validated, setValidated] = useState(false);
@@ -22,7 +22,7 @@ export const ProductForm = ({ history }) => {
 
     const loadProduct = async () => {
         if (id !== 'new') {
-            const resp = await axios.get(`http://localhost:8080/products/${id}`);
+            const resp = await apiService.get(`products/${id}`);
             setProduct(resp.data);
         }
     }
@@ -46,9 +46,8 @@ export const ProductForm = ({ history }) => {
     const saveProduct = async () => {
         try {
             const resp = id === 'new' ?
-                await axios.post('http://localhost:8080/products', product) :
-                await axios.put(`http://localhost:8080/products/${id}`, product);
-            alert('Successful');
+                await apiService.post('products', product) :
+                await apiService.put(`products/${id}`, product);
             history.push(`/products/${resp.data.productNumber}`);
             // setProduct(resp.data);
         }

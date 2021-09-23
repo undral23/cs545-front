@@ -7,7 +7,9 @@ const initialState = {
     shoppingCart: [],
     personalInfo: {},
     paymentInfo: {},
-    isAuthenticated: Cookies.get('token') != null
+    isAuthenticated: Cookies.get('token') != null,
+    alerts: [],
+    alertId: 0
 };
 
 axios.defaults.headers.common = {
@@ -82,14 +84,14 @@ const appReducer = (state = initialState, action) => {
     // if (action.type == 'login') {
     //     const userCred = action.payload;
     //     const dispatch = useDispatch();
-        
+
 
     //     // if (Cookies.get('token') != null) {
     //     //     state.isAuthenticated = true
     //     // }
     // }
 
-    if(action.type == 'loginSuccess') {
+    if (action.type === 'loginSuccess') {
         Cookies.set('token', action.payload)
         axios.defaults.headers.common = {
             'Authorization': 'Bearer ' + action.payload
@@ -97,12 +99,21 @@ const appReducer = (state = initialState, action) => {
         return { ...state, isAuthenticated: true };
     }
 
-    if (action.type == 'logout') {
+    if (action.type === 'logout') {
         Cookies.remove('token')
         axios.defaults.headers.common = {
             'Authorization': ''
         };
         return { ...state, isAuthenticated: false }
+    }
+
+    // Alert
+    if (action.type === 'showAlert') {
+        return { ...state, alerts: [...state.alerts, { ...action.payload, id: state.alertId }], alertId: state.alertId + 1 }
+    }
+
+    if (action.type === 'closeAlert') {
+        return { ...state, alerts: state.alerts.filter(a => a.id !== action.payload) }
     }
 
     return state;

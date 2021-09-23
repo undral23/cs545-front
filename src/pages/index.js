@@ -8,4 +8,4 @@ export { PaymentInfo } from './PaymentInfo';
 export { ConfirmOrder } from './ConfirmOrder';
 export { Orders } from './Orders';
 export { SignIn } from './auth/SignIn';
-export { SignUp } from './SignUp';
+export { Register } from './auth/Register';

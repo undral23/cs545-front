@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 
 import {
     Link
 } from "react-router-dom";
+import apiService from "../services/api.service";
 
 export const Products = ({ history }) => {
     const [products, setProducts] = useState([]);
     const loadProducts = async () => {
-        const resp = await axios.get('http://localhost:8080/products');
-        setProducts(resp.data);
+        const data = await apiService.get('products');
+        setProducts(data);
     }
     useEffect(() => {
         loadProducts();
@@ -22,7 +22,7 @@ export const Products = ({ history }) => {
 
     const deleteProduct = async (id) => {
         if (window.confirm("Are you sure to delete?")) {
-            await axios.delete(`http://localhost:8080/products/${id}`);
+            await apiService.delete(`products/${id}`);
             await loadProducts();
         }
     }
