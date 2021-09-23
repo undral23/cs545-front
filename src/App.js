@@ -20,7 +20,8 @@ function App() {
         <Header />
         <main className="container">
           <Switch>
-            <Redirect from="/" to="/buy" />
+            {isAuthenticated ? <Redirect from="/signin" to="/" /> : <>
+              <Redirect from="/" to="/signin" /></>}
             <Route exact path="/products/" component={Products} />
             <Route exact path="/products/:id" component={ProductForm} />
             <Route exact path="/cart" component={ShoppingCart} />
@@ -34,7 +35,7 @@ function App() {
             <Route exact path="/buy/:id" component={BuyProduct} />
             <Route exact path="/sellers" component={Sellers} />
             <Route exact path="/reviews" component={Reviews} />
-            {isAuthenticated ? <Redirect from="signin" to="/" /> : <></>}
+
           </Switch>
         </main>
         <AlertDismissible />

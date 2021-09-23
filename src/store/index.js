@@ -8,6 +8,7 @@ const initialState = {
     personalInfo: {},
     paymentInfo: {},
     isAuthenticated: Cookies.get('token') != null,
+    userDetails: JSON.parse(localStorage.getItem('user')),
     alerts: [],
     alertId: 0
 };
@@ -92,11 +93,14 @@ const appReducer = (state = initialState, action) => {
     // }
 
     if (action.type === 'loginSuccess') {
-        Cookies.set('token', action.payload)
+        Cookies.set('token', action.payload.jwt);
+        
         axios.defaults.headers.common = {
-            'Authorization': 'Bearer ' + action.payload
+            'Authorization': 'Bearer ' + action.payload.jwt
         };
-        return { ...state, isAuthenticated: true };
+
+        localStorage.setItem('user', JSON.stringify(action.payload.userDetails));
+        return { ...state, isAuthenticated: true, userDetails: action.payload.userDetails };
     }
 
     if (action.type === 'logout') {
@@ -104,7 +108,8 @@ const appReducer = (state = initialState, action) => {
         axios.defaults.headers.common = {
             'Authorization': ''
         };
-        return { ...state, isAuthenticated: false }
+        localStorage.removeItem('user');
+        return { ...state, isAuthenticated: false, userDetails: null}
     }
 
     // Alert
