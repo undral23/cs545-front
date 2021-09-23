@@ -15,7 +15,11 @@ export const SignIn = (props) => {
         apiService.post('auth', userCredentials, { successMessage: false })
             .then(response => {
                 dispatch({ type: 'loginSuccess', payload: response });
-                props.history.push("/products");
+                if (response.userDetails.roles === "BUYER") {
+                    props.history.push("/buy");
+                } else {
+                    props.history.push("/products");
+                }
             })
             .catch(err => console.log(err.message));
     }

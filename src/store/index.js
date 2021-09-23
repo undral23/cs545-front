@@ -19,7 +19,8 @@ axios.defaults.headers.common = {
 
 const appReducer = (state = initialState, action) => {
     if (action.type === 'addProduct') {
-        const found = state.shoppingCart.find(c => c.product.productNumber === action.cartItem.product.productNumber);
+        const found = state.shoppingCart.find(c => c.product.id === action.cartItem.product.id);
+        console.log(state.shoppingCart);
         if (found) {
             found.quantity += action.cartItem.quantity;
             return {
@@ -36,7 +37,7 @@ const appReducer = (state = initialState, action) => {
     }
 
     if (action.type === 'reduceQuantity') {
-        const found = state.shoppingCart.find(c => c.product.productNumber === action.cartItem.product.productNumber);
+        const found = state.shoppingCart.find(c => c.product.id === action.cartItem.product.id);
         if (found) {
             found.quantity -= action.cartItem.quantity;
             if (found.quantity > 0) {
@@ -50,14 +51,14 @@ const appReducer = (state = initialState, action) => {
 
         return {
             ...state,
-            shoppingCart: state.shoppingCart.filter(cartItem => cartItem.product.productNumber !== action.cartItem.product.productNumber)
+            shoppingCart: state.shoppingCart.filter(cartItem => cartItem.product.id !== action.cartItem.product.id)
         };
     }
 
     if (action.type === 'removeProduct') {
         return {
             ...state,
-            shoppingCart: state.shoppingCart.filter(cartItem => cartItem.product.productNumber !== action.cartItem.product.productNumber)
+            shoppingCart: state.shoppingCart.filter(cartItem => cartItem.product.id !== action.cartItem.product.id)
         };
     }
 
@@ -94,7 +95,7 @@ const appReducer = (state = initialState, action) => {
 
     if (action.type === 'loginSuccess') {
         Cookies.set('token', action.payload.jwt);
-        
+
         axios.defaults.headers.common = {
             'Authorization': 'Bearer ' + action.payload.jwt
         };
@@ -109,7 +110,7 @@ const appReducer = (state = initialState, action) => {
             'Authorization': ''
         };
         localStorage.removeItem('user');
-        return { ...state, isAuthenticated: false, userDetails: null}
+        return { ...state, isAuthenticated: false, userDetails: null }
     }
 
     // Alert

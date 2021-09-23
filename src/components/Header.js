@@ -25,6 +25,10 @@ const allMenuItems = {
     ],
     admin: [
         {
+            to: '/products',
+            title: 'Products'
+        },
+        {
             to: '/sellers',
             title: 'Sellers'
         },
