@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import apiService from "../services/api.service";
-import { BuyProduct } from './BuyProduct';
+import apiService from "../../services/api.service";
+import { ProductOverview } from './ProductOverview';
 
 
 export const Shop = () => {
@@ -21,7 +21,7 @@ export const Shop = () => {
             <div className="row">
                 {products.map(p => (
 
-                    <BuyProduct key={p.id} product={p} />
+                    <ProductOverview key={p.id} product={p} />
 
                 ))}
             </div>

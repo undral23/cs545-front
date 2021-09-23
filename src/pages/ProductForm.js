@@ -11,7 +11,7 @@ export const ProductForm = ({ history }) => {
     let { id } = useParams();
 
     const cleanProduct = {
-        productNumber: "",
+        id: "",
         name: "",
         price: 0.0,
         description: "",
@@ -22,8 +22,8 @@ export const ProductForm = ({ history }) => {
 
     const loadProduct = async () => {
         if (id !== 'new') {
-            const resp = await apiService.get(`products/${id}`);
-            setProduct(resp.data);
+            const data = await apiService.get(`products/${id}`);
+            setProduct(data);
         }
     }
 
@@ -45,11 +45,11 @@ export const ProductForm = ({ history }) => {
 
     const saveProduct = async () => {
         try {
-            const resp = id === 'new' ?
+            const data = id === 'new' ?
                 await apiService.post('products', product) :
                 await apiService.put(`products/${id}`, product);
-            history.push(`/products/${resp.data.productNumber}`);
-            // setProduct(resp.data);
+            history.push(`/products/${data.id}`);
+            // setProduct(data.data);
         }
         catch (error) {
             console.log(error);
@@ -76,10 +76,10 @@ export const ProductForm = ({ history }) => {
                     <Form.Control
                         required
                         type="text"
-                        name="productNumber"
+                        name="id"
                         disabled={id !== 'new'}
                         placeholder="Product Number"
-                        value={product.productNumber}
+                        value={product.id}
                         onChange={handleFieldChange}
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>

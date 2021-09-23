@@ -16,15 +16,15 @@ export const Sellers = ({ history }) => {
         loadSellers();
     }, []);
 
-    const deleteSeller = async (id) => {
+    const approveSeller = async (id) => {
         if (window.confirm("Are you sure to approve the seller?")) {
-            await apiService.put(`sellers/${id}`);
+            await apiService.get(`admin/sellers/${id}`);
             await loadSellers();
         }
     }
 
     const handleApprove = (e) => {
-        deleteSeller(e.target.value);
+        approveSeller(e.target.value);
     }
 
     return (

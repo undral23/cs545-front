@@ -4,6 +4,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap';
 import {
     Link
 } from "react-router-dom";
+import { RatingView } from "react-simple-star-rating";
 import apiService from "../services/api.service";
 
 export const Reviews = ({ history }) => {
@@ -16,15 +17,16 @@ export const Reviews = ({ history }) => {
         loadReviews();
     }, []);
 
-    const deleteSeller = async (id) => {
-        if (window.confirm("Are you sure to approve the seller?")) {
-            await apiService.put(`reviews/${id}`);
+    const approveReview = async (id) => {
+        if (window.confirm("Are you sure to approve the review?")) {
+            const review = reviews.find(r=> r.id === +id);
+            await apiService.get(`admin/products/${review.product.id}/reviews/${id}?approved=true`);
             await loadReviews();
         }
     }
 
     const handleApprove = (e) => {
-        deleteSeller(e.target.value);
+        approveReview(e.target.value);
     }
 
     return (
@@ -41,29 +43,26 @@ export const Reviews = ({ history }) => {
             <Table id="tableMain" striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Seller #</th>
-                        <th>Full Name</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Status</th>
+                        <th>Product</th>
+                        <th>Stars</th>
+                        <th>Comment</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {reviews.map(p => (
-                        <tr key={p.id}>
+                    {reviews.map(r => (
+                        <tr key={r.id}>
                             <td>
-                                {p.id}
+                                {r.product.title}
                             </td>
-                            <td>{`${p.user.fname} ${p.user.lname}`}</td>
-                            <td>{p.user.username}</td>
-                            <td>{p.user.email}</td>
-                            <td>{p.status}</td>
+                            <td>
+                                <RatingView size={15} ratingValue={r.stars}/></td>
+                            <td>{r.comment}</td>
                             <td><Button
-                                id={`btnApprove-${p.id}`}
+                                id={`btnApprove-${r.id}`}
                                 variant="primary"
-                                value={p.id}
-                                disabled={p.status !== 'Pending'}
+                                value={r.id}
+                                disabled={r.status !== 'Pending'}
                                 onClick={handleApprove}>Approve</Button></td>
                         </tr>
                     ))}
