@@ -21,7 +21,7 @@ export const ConfirmOrder = ({ history }) => {
             paymentInfo: { ...paymentInfo, dateValid: new Date(paymentInfo.expYear, paymentInfo.expMonth, 1) },
             items: cartItems
         });
-        
+
         dispatch({ type: 'resetShoppingCart' });
     }
 
@@ -85,9 +85,9 @@ export const ConfirmOrder = ({ history }) => {
                 </thead>
                 <tbody>
                     {cartItems.map(item => (
-                        <tr key={item.product.productNumber}>
-                            <td>{item.product.productNumber}</td>
-                            <td>{item.product.name}</td>
+                        <tr key={item.product.id}>
+                            <td>{item.product.id}</td>
+                            <td>{item.product.title}</td>
                             <td>${item.product.price}</td>
                             <td>{item.quantity}</td>
                             <td>${item.quantity * item.product.price}</td>

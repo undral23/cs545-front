@@ -49,7 +49,7 @@ export const PersonalInfo = ({ history }) => {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
                 <Form.Group as={Col} md="4" controlId="txtName">
-                    <Form.Label>name</Form.Label>
+                    <Form.Label>Full name</Form.Label>
                     <Form.Control
                         required
                         type="text"

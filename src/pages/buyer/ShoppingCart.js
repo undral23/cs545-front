@@ -10,25 +10,25 @@ export const ShoppingCart = ({ history }) => {
     const dispatch = useDispatch();
 
     const checkAvailability = (id) => {
-        const cartItem = cartItems.find(item => item.product.id === id);
-        const quantity = +cartItem.quantity + 1;
+        const cartItem = cartItems.find(item => item.product.id === +id);
+        const quantity = + cartItem.quantity + 1;
         return quantity <= cartItem.product.numberInStock;
     }
 
     const handleRemove = (e) => {
-        dispatch({ type: 'removeProduct', cartItem: { product: { id: e.target.value }, quantity: 1 } });
+        dispatch({ type: 'removeProduct', cartItem: { product: { id: +e.target.value }, quantity: 1 } });
     }
 
     const handleIncrease = (e) => {
-        if (!checkAvailability(e.target.value)) {
+        if (!checkAvailability(+e.target.value)) {
             alert('Quantity unavailable');
             return;
         }
-        dispatch({ type: 'addProduct', cartItem: { product: { id: e.target.value }, quantity: 1 } });
+        dispatch({ type: 'addProduct', cartItem: { product: { id: +e.target.value }, quantity: 1 } });
     }
 
     const handleReduce = (e) => {
-        dispatch({ type: 'reduceQuantity', cartItem: { product: { id: e.target.value }, quantity: 1 } });
+        dispatch({ type: 'reduceQuantity', cartItem: { product: { id: +e.target.value }, quantity: 1 } });
     }
 
     const handleCheckout = (e) => {
