@@ -16,6 +16,10 @@ const allMenuItems = {
     {
         to: '/sellers',
         title: 'Sellers'
+    },
+    {
+        to: '/orders',
+        title: 'Orders'
     }
     ],
     seller: [{

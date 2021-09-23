@@ -42,8 +42,8 @@ export const Orders = ({ history }) => {
                 <thead>
                     <tr>
                         <th>Order #</th>
-                        <th>Person</th>
-                        <th>Payment</th>
+                        {/* <th>Person</th>
+                        <th>Payment</th> */}
                         <th>Items</th>
                         <th>Total</th>
                         <th></th>
@@ -55,13 +55,16 @@ export const Orders = ({ history }) => {
                             <td>
                                 {o.id}
                             </td>
-                            <td>{o.personalInfo.name} ({o.personalInfo.email})</td>
-                            <td>{`${o.paymentInfo.cartType} ${o.paymentInfo.number}`}</td>
-                            <td>{o.items.length}</td>
-                            <td>${o.items.map(i => i.product.price * i.quantity).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
+                            {/* <td>{o.personalInfo.name} ({o.personalInfo.email})</td>
+                            <td>{`${o.paymentInfo.cartType} ${o.paymentInfo.number}`}</td> */}
+                            <td>{o.lineItems.length}</td>
+                            <td>${o.lineItems.map(i => i.product.price * i.quantity).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                             <td>
-                                <ToggleButtonGroup type="radio" name="statuses" defaultValue={o.status}
+                                <ToggleButtonGroup type="radio" name="statuses" defaultValue={o.orderStatus}
                                     onChange={status => handleStatusChange(o.id, status)}>
+                                    <ToggleButton id="tbg-radio-0" variant="outline-success" value={'Pending'}>
+                                        Pending
+                                    </ToggleButton>
                                     <ToggleButton id="tbg-radio-1" variant="outline-success" value={'PLACED'}>
                                         Placed
                                     </ToggleButton>

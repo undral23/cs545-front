@@ -19,7 +19,7 @@ export const ConfirmOrder = ({ history }) => {
         const resp = await axios.post('http://localhost:8080/orders', {
             personalInfo,
             paymentInfo: { ...paymentInfo, dateValid: new Date(paymentInfo.expYear, paymentInfo.expMonth, 1) },
-            items: cartItems
+            lineItems: cartItems
         });
 
         dispatch({ type: 'resetShoppingCart' });
