@@ -115,7 +115,7 @@ export const BuyProduct = (props) => {
                         {reviews.map(review => (
                             <ListGroup.Item key={review.id}>
                                 <RatingView size={15} ratingValue={review.stars} />
-                                {review.comment}
+                                <span className="ml-3">{review.comment}</span>
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
