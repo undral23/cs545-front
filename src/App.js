@@ -30,7 +30,7 @@ function App() {
             <Route path="/orders" component={Orders} />
             <Route path="/signin" component={SignIn} />
             <Route path="/register" component={Register} />
-            <Route path="/buy" component={Shop} />
+            <Route path={["/buy", "/"]} component={Shop} />
             {isAuthenticated ? <Redirect from="signin" to="/" /> : <></>}
           </Switch>
         </main>
