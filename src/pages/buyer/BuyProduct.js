@@ -71,8 +71,8 @@ export const BuyProduct = (props) => {
                 <Col>
                     <Card style={{ width: '100%' }}>
                         <Row noGutters={true}>
-                            <Col>
-                                <Card.Img variant="top" src={product.image} style={{maxHeight: '300px'}} />
+                            <Col className="text-center">
+                                <Card.Img variant="top" src={product.image} style={{ maxHeight: '300px', maxWidth: '300px' }} />
                             </Col>
                             <Col>
                                 <Card.Body>

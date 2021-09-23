@@ -39,21 +39,30 @@ export const ProductOverview = (props) => {
 
         <div className="col-md-4">
             <Link to={`/shop/${product.id}`}>
-                <Card style={{ width: '18rem' }}>
+                <Card style={{ width: '100%' }}>
+
+                    <Row noGutters={true}>
+                        <Col className="text-center">
+                            <Card.Img variant="top" src={product.image} style={{ maxHeight: '200px', maxWidth: '200px' }} />
+                        </Col>
+                        <Col>
+                            <Card.Body>
+                                <Card.Title>{product.title}</Card.Title>
+                                <Card.Title className="text-primary">${product.price}</Card.Title>
+                                <Card.Text>
+                                    {product.description}
+                                </Card.Text>
+                                <Card.Text>
+                                    (in stock: {product.numberInStock})
+                                </Card.Text>
+                                <Card.Text>
+                                    Rate: {product.rating}
+                                </Card.Text>
+                            </Card.Body>
+                        </Col>
+                    </Row>
                     {/* <Card.Img variant="top" src={product.image} /> */}
-                    <Card.Body>
-                        <Card.Title>{product.title}</Card.Title>
-                        <Card.Title className="text-primary">${product.price}</Card.Title>
-                        <Card.Text>
-                            {product.description}
-                        </Card.Text>
-                        <Card.Text>
-                            (in stock: {product.numberInStock})
-                        </Card.Text>
-                        <Card.Text>
-                            Rate: {product.rating}
-                        </Card.Text>
-                    </Card.Body>
+
                 </Card>
             </Link>
         </div>

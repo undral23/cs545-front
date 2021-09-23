@@ -76,7 +76,7 @@ export const Header = () => {
                                     item.to !== '/cart' ? (<li key={item.to} className="nav-item">
                                         <NavLink activeClassName="active" className="nav-link" to={item.to}>{item.title}</NavLink>
                                     </li>) : (
-                                        <li className="nav-item">
+                                        <li className="nav-item mr-2">
                                             <NavLink activeClassName="active" className="nav-link position-relative" to="/cart">Cart
                                                 {
                                                     cartItemCount ? (
