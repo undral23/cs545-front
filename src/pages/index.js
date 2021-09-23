@@ -9,3 +9,5 @@ export { ConfirmOrder } from './ConfirmOrder';
 export { Orders } from './Orders';
 export { SignIn } from './auth/SignIn';
 export { Register } from './auth/Register';
+export { Sellers } from './Sellers';
+export { Reviews } from './Reviews';
