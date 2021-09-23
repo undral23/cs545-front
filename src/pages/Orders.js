@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { Table, Button, Row, Col, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
-
-import {
-    Link
-} from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Orders = ({ history }) => {
     const [orders, setOrders] = useState([]);
+    const userDetails = useSelector(state => state.userDetails) || {};
+
+
     const loadOrders = async () => {
         const resp = await axios.get('http://localhost:8080/orders');
-        setOrders(resp.data);
+        setOrders(resp.data || []);
     }
     useEffect(() => {
         loadOrders();
@@ -57,21 +57,26 @@ export const Orders = ({ history }) => {
                             </td>
                             {/* <td>{o.personalInfo.name} ({o.personalInfo.email})</td>
                             <td>{`${o.paymentInfo.cartType} ${o.paymentInfo.number}`}</td> */}
-                            <td>{o.lineItems.length}</td>
+                            <td>{o.lineItems.map(i => (
+                                <div>
+                                    {i.product.title} ({i.quantity} * ${i.product.price})
+                                </div>
+                            ))}</td>
                             <td>${o.lineItems.map(i => i.product.price * i.quantity).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                             <td>
                                 <ToggleButtonGroup type="radio" name="statuses" defaultValue={o.orderStatus}
-                                    onChange={status => handleStatusChange(o.id, status)}>
-                                    <ToggleButton id="tbg-radio-0" variant="outline-success" value={'Pending'}>
+                                    onChange={status => handleStatusChange(o.id, status)}
+                                    >
+                                    <ToggleButton id="tbg-radio-0" variant="outline-success" value={'Pending'} >
                                         Pending
                                     </ToggleButton>
-                                    <ToggleButton id="tbg-radio-1" variant="outline-success" value={'PLACED'}>
-                                        Placed
-                                    </ToggleButton>
-                                    <ToggleButton id="tbg-radio-2" variant="outline-success" value={'SHIPPED'}>
+                                    <ToggleButton id="tbg-radio-2" variant="outline-success" value={'Shipped'} disabled={userDetails.roles === 'BUYER'}>
                                         Shipped
                                     </ToggleButton>
-                                    <ToggleButton id="tbg-radio-3" variant="outline-success" value={'DELIVERED'}>
+                                    <ToggleButton id="tbg-radio-1" variant="outline-success" value={'On the way'} disabled={userDetails.roles === 'BUYER'}>
+                                        On the way
+                                    </ToggleButton>
+                                    <ToggleButton id="tbg-radio-3" variant="outline-success" value={'DELIVERED'} disabled={userDetails.roles === 'BUYER'}>
                                         Delivered
                                     </ToggleButton>
                                 </ToggleButtonGroup>

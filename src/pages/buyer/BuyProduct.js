@@ -69,38 +69,46 @@ export const BuyProduct = (props) => {
         <div>
             <Row>
                 <Col>
-                    <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" src={product.image} />
-                        <Card.Body>
-                            <Card.Title>{product.title}</Card.Title>
-                            <Card.Title className="text-primary">${product.price}</Card.Title>
-                            <Card.Text>
-                                {product.description}
-                            </Card.Text>
-                            <Card.Text>
-                                (in stock: {product.numberInStock})
-                            </Card.Text>
-                            <Card.Text>
-                                Rate: {product.rating}
-                            </Card.Text>
-                        </Card.Body>
-                        <Card.Footer>
-                            <Row>
-                                <Col md="7">
-                                    <Form.Control
-                                        id={`inputQuantity-${product.id}`}
-                                        type="number"
-                                        name="quantity"
-                                        placeholder="Quantity"
-                                        required
-                                        value={buyInfo.quantity}
-                                        onChange={handleFieldChange}
-                                    />
-                                </Col>
-                                <Button id={`btnBuy-${product.id}`} variant="primary" onClick={handleBuy}>Add to Cart</Button>
-                            </Row>
+                    <Card style={{ width: '100%' }}>
+                        <Row noGutters={true}>
+                            <Col>
+                                <Card.Img variant="top" src={product.image} style={{maxHeight: '300px'}} />
+                            </Col>
+                            <Col>
+                                <Card.Body>
+                                    <Card.Title>{product.title}</Card.Title>
+                                    <Card.Title className="text-primary">${product.price}</Card.Title>
+                                    <Card.Text>
+                                        {product.description}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        (in stock: {product.numberInStock})
+                                    </Card.Text>
+                                    <Card.Text>
+                                        Rate: {product.rating}
+                                    </Card.Text>
+                                </Card.Body>
+                                <Card.Footer>
+                                    <Row>
+                                        <Col md="7">
+                                            <Form.Control
+                                                id={`inputQuantity-${product.id}`}
+                                                type="number"
+                                                name="quantity"
+                                                placeholder="Quantity"
+                                                required
+                                                value={buyInfo.quantity}
+                                                onChange={handleFieldChange}
+                                            />
+                                        </Col>
+                                        <Button id={`btnBuy-${product.id}`} variant="primary" onClick={handleBuy}>Add to Cart</Button>
+                                    </Row>
 
-                        </Card.Footer>
+                                </Card.Footer>
+                            </Col>
+                        </Row>
+
+
                     </Card>
                 </Col>
             </Row>

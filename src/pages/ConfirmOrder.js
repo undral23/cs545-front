@@ -23,6 +23,7 @@ export const ConfirmOrder = ({ history }) => {
         });
 
         dispatch({ type: 'resetShoppingCart' });
+        history.push('/orders');
     }
 
     const handlePlaceOrder = (e) => {

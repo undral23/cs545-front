@@ -6,7 +6,7 @@ import apiService from "../services/api.service";
 
 export const Sellers = ({ history }) => {
     const [sellers, setSellers] = useState([]);
-    const userDetails = useSelector(state => state.userDetails);
+    const userDetails = useSelector(state => state.userDetails)  || {};
 
     const loadFollowedSellers = async () => {
         return await apiService.get(`buyer/${userDetails.username}/follow`);
@@ -17,7 +17,7 @@ export const Sellers = ({ history }) => {
 
         if (userDetails.roles === 'BUYER') {
             const fws = await loadFollowedSellers();
-            
+
             data.forEach(r => {
                 r.followed = !!fws.find(f => f.user.username === r.user.username);
             });
