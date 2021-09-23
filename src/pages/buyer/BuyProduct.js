@@ -14,7 +14,7 @@ export const BuyProduct = (props) => {
     const [reviews, setReviews] = useState([]);
 
     const dispatch = useDispatch();
-    const cartItem = useSelector(state => state.shoppingCart.find(item => item.product.id === product.id));
+    const cartItem = useSelector(state => state.shoppingCart.find(item => item.product.id === id));
 
     const [buyInfo, setBuyInfo] = useState({
         product,
@@ -25,6 +25,7 @@ export const BuyProduct = (props) => {
         if (id) {
             const data = await apiService.get(`products/${id}`);
             setProduct(data);
+            setBuyInfo({ ...buyInfo, product: data });
         }
     }
 
