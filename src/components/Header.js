@@ -6,12 +6,16 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const allMenuItems = {
     buyer: [{
-        to: '/buy',
-        title: 'Buy'
+        to: '/shop',
+        title: 'Shop'
     },
     {
         to: '/cart',
         title: 'Cart'
+    },
+    {
+        to: '/sellers',
+        title: 'Sellers'
     }
     ],
     seller: [{

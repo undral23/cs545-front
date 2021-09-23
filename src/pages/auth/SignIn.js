@@ -16,7 +16,7 @@ export const SignIn = (props) => {
             .then(response => {
                 dispatch({ type: 'loginSuccess', payload: response });
                 if (response.userDetails.roles === "BUYER") {
-                    props.history.push("/buy");
+                    props.history.push("/shop");
                 } else {
                     props.history.push("/products");
                 }
