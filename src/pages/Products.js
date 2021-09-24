@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Table, Button, Row, Col } from 'react-bootstrap';
+import { useSelector } from "react-redux";
 
 import {
     Link
@@ -8,8 +9,15 @@ import apiService from "../services/api.service";
 
 export const Products = ({ history }) => {
     const [products, setProducts] = useState([]);
+    const userDetails = useSelector(state => state.userDetails) || {};
+
     const loadProducts = async () => {
-        const data = await apiService.get('products');
+        const data = await apiService.get(
+            userDetails.roles === 'SELLER' ?
+                `products?userName=${userDetails.username}`
+                :
+                `products`);
+
         setProducts(data);
     }
     useEffect(() => {

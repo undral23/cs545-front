@@ -15,7 +15,8 @@ export const ProductForm = ({ history }) => {
         name: "",
         price: 0.0,
         description: "",
-        numberInStock: 0
+        numberInStock: 0,
+        image: ""
     };
 
     const [product, setProduct] = useState(cleanProduct);
@@ -137,6 +138,21 @@ export const ProductForm = ({ history }) => {
                         placeholder="Number In Stock"
                         required
                         value={product.numberInStock}
+                        onChange={handleFieldChange}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please provide a valid number.
+                    </Form.Control.Feedback>
+                </Form.Group>
+            </Row>
+            <Row>
+                <Form.Group as={Col} md="12" controlId="txtImage">
+                    <Form.Label>Image URL</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="image"
+                        placeholder="Image URL"
+                        value={product.image}
                         onChange={handleFieldChange}
                     />
                     <Form.Control.Feedback type="invalid">
