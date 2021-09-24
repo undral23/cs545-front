@@ -41,29 +41,29 @@ export const ProductOverview = (props) => {
 
             <Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src={product.image} />
-                    <Row noGutters={true}>
-                        <Col className="text-center">
-                            <Card.Img variant="top" src={product.image} style={{ maxHeight: '200px', maxWidth: '200px' }} />
-                        </Col>
-                        <Col>
-                <Card.Body>
-                    <Link to={`/shop/${product.id}`}>
+                <Row noGutters={true}>
+                    {/* <Col className="text-center">
+                        <Card.Img variant="top" src={product.image} style={{ maxHeight: '200px', maxWidth: '200px' }} />
+                    </Col> */}
+                    <Col>
+                        <Card.Body>
+                            <Link to={`/shop/${product.id}`}>
                                 <Card.Title>{product.title}</Card.Title>
-                    </Link>
-                    <Card.Title className="text-primary">${product.price}</Card.Title>
-                    <Card.Text>
-                        {product.description}
-                    </Card.Text>
-                    <Card.Text>
-                        (in stock: {product.numberInStock})
-                    </Card.Text>
-                    <Card.Text>
-                        Rate: {product.rating}
-                    </Card.Text>
-                </Card.Body>
-                        </Col>
-                    </Row>
-                    {/* <Card.Img variant="top" src={product.image} /> */}
+                            </Link>
+                            <Card.Title className="text-primary">${product.price}</Card.Title>
+                            <Card.Text>
+                                {product.description}
+                            </Card.Text>
+                            <Card.Text>
+                                (in stock: {product.numberInStock})
+                            </Card.Text>
+                            <Card.Text>
+                                Rate: {product.rating}
+                            </Card.Text>
+                        </Card.Body>
+                    </Col>
+                </Row>
+                {/* <Card.Img variant="top" src={product.image} /> */}
 
             </Card>
 
