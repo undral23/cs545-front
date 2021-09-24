@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
 import { Table, Button, Row, Col, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import { useSelector } from "react-redux";
+import apiService from "../services/api.service";
 
 export const Orders = ({ history }) => {
     const [orders, setOrders] = useState([]);
@@ -9,8 +9,11 @@ export const Orders = ({ history }) => {
 
 
     const loadOrders = async () => {
-        const resp = await axios.get('http://localhost:8080/orders');
-        setOrders(resp.data || []);
+        const data = await apiService.get(
+            userDetails.roles === 'BUYER' ? 'orders'
+                : `seller/${userDetails.username}/orders`
+        );
+        setOrders(data || []);
     }
     useEffect(() => {
         loadOrders();
@@ -18,13 +21,38 @@ export const Orders = ({ history }) => {
 
     const changeStatus = async (id, status) => {
         if (window.confirm("Are you sure to change the status?")) {
-            await axios.put(`http://localhost:8080/orders/${id}?status=${status}`);
+
+            if (status === 'Shipped') {
+                await apiService.post(`seller/${userDetails.username}/order/shipped/${id}`);
+            }
+            else if (status === 'On the way') {
+                await apiService.post(`seller/${userDetails.username}/order/ontheway/${id}`);
+            }
+            else if (status === 'Delivered') {
+                await apiService.post(`seller/${userDetails.username}/order/delivered/${id}`);
+            }
             await loadOrders();
         }
     }
 
     const handleStatusChange = (id, status) => {
         changeStatus(id, status);
+    }
+
+    const cancelOrder = async (id) => {
+        if (window.confirm("Are you sure to cancel the order?")) {
+            if (userDetails.roles === 'BUYER') {
+                await apiService.delete(`buyer/${userDetails.username}/order/${id}`);
+            }
+            else {
+                await apiService.post(`seller/${userDetails.username}/order/cancel/${id}`);
+            }
+            await loadOrders();
+        }
+    }
+
+    const handleCancel = (e) => {
+        cancelOrder(e.target.value);
     }
 
     return (
@@ -47,6 +75,7 @@ export const Orders = ({ history }) => {
                         <th>Items</th>
                         <th>Total</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,7 +95,7 @@ export const Orders = ({ history }) => {
                             <td>
                                 <ToggleButtonGroup type="radio" name="statuses" defaultValue={o.orderStatus}
                                     onChange={status => handleStatusChange(o.id, status)}
-                                    >
+                                >
                                     <ToggleButton id="tbg-radio-0" variant="outline-success" value={'Pending'} >
                                         Pending
                                     </ToggleButton>
@@ -76,10 +105,18 @@ export const Orders = ({ history }) => {
                                     <ToggleButton id="tbg-radio-1" variant="outline-success" value={'On the way'} disabled={userDetails.roles === 'BUYER'}>
                                         On the way
                                     </ToggleButton>
-                                    <ToggleButton id="tbg-radio-3" variant="outline-success" value={'DELIVERED'} disabled={userDetails.roles === 'BUYER'}>
+                                    <ToggleButton id="tbg-radio-3" variant="outline-success" value={'Delivered'} disabled={userDetails.roles === 'BUYER'}>
                                         Delivered
                                     </ToggleButton>
                                 </ToggleButtonGroup>
+                            </td>
+                            <td>
+                                <Button
+                                    id={`btnCancel-${o.id}`}
+                                    variant="primary"
+                                    value={o.id}
+                                    disabled={o.orderStatus === 'Shipped' || o.orderStatus === 'Delivered'}
+                                    onClick={handleCancel}>Cancel</Button>
                             </td>
                         </tr>
                     ))}
