@@ -6,7 +6,7 @@ import apiService from "../services/api.service";
 
 export const Sellers = ({ history }) => {
     const [sellers, setSellers] = useState([]);
-    const userDetails = useSelector(state => state.userDetails)  || {};
+    const userDetails = useSelector(state => state.userDetails) || {};
 
     const loadFollowedSellers = async () => {
         return await apiService.get(`buyer/${userDetails.username}/follow`);
@@ -32,7 +32,7 @@ export const Sellers = ({ history }) => {
 
     const approveSeller = async (id) => {
         if (window.confirm("Are you sure to approve the seller?")) {
-            await apiService.get(`admin/sellers/${id}`);
+            await apiService.get(`admin/seller/${id}?approved=true`);
             await loadSellers();
         }
     }
