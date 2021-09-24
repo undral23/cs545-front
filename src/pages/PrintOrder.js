@@ -42,6 +42,11 @@ export const PrintOrder = ({ order }) => {
                                 Order # {order.id}
                             </h2>
                         </Col>
+                        <Col className="text-right">
+                            <h5>
+                                Date: {order.createdOn} ({order.orderStatus})
+                            </h5>
+                        </Col>
                     </Row>
 
                     <hr />
