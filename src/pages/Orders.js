@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Table, Button, Row, Col, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 import apiService from "../services/api.service";
+import { jsPDF } from "jspdf";
+import { PrintOrder } from "./PrintOrder";
 
 export const Orders = ({ history }) => {
     const [orders, setOrders] = useState([]);
@@ -55,6 +57,13 @@ export const Orders = ({ history }) => {
         cancelOrder(e.target.value);
     }
 
+    const handlePDF = () => {
+        const doc = new jsPDF();
+
+        doc.text("Hello world!", 10, 10);
+        doc.save("a4.pdf");
+    }
+
     return (
         <div>
             <Row>
@@ -76,6 +85,7 @@ export const Orders = ({ history }) => {
                         <th>Total</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,7 +103,7 @@ export const Orders = ({ history }) => {
                             ))}</td>
                             <td>${o.lineItems.map(i => i.product.price * i.quantity).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                             <td>
-                                {userDetails.roles === 'BUYER' ? (<span class="text-info">{o.orderStatus}</span>) :
+                                {userDetails.roles === 'BUYER' ? (<span className="text-info">{o.orderStatus}</span>) :
                                     (<ToggleButtonGroup type="radio" name="statuses" defaultValue={o.orderStatus}
                                         onChange={status => handleStatusChange(o.id, status)}
                                     >
@@ -118,6 +128,9 @@ export const Orders = ({ history }) => {
                                     value={o.id}
                                     disabled={o.orderStatus === 'Shipped' || o.orderStatus === 'Delivered'}
                                     onClick={handleCancel}>Cancel</Button>
+                            </td>
+                            <td>
+                                <PrintOrder order={o}/>
                             </td>
                         </tr>
                     ))}
