@@ -93,22 +93,23 @@ export const Orders = ({ history }) => {
                             ))}</td>
                             <td>${o.lineItems.map(i => i.product.price * i.quantity).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                             <td>
-                                <ToggleButtonGroup type="radio" name="statuses" defaultValue={o.orderStatus}
-                                    onChange={status => handleStatusChange(o.id, status)}
-                                >
-                                    <ToggleButton id="tbg-radio-0" variant="outline-success" value={'Pending'} >
-                                        Pending
-                                    </ToggleButton>
-                                    <ToggleButton id="tbg-radio-2" variant="outline-success" value={'Shipped'} disabled={userDetails.roles === 'BUYER'}>
-                                        Shipped
-                                    </ToggleButton>
-                                    <ToggleButton id="tbg-radio-1" variant="outline-success" value={'On the way'} disabled={userDetails.roles === 'BUYER'}>
-                                        On the way
-                                    </ToggleButton>
-                                    <ToggleButton id="tbg-radio-3" variant="outline-success" value={'Delivered'} disabled={userDetails.roles === 'BUYER'}>
-                                        Delivered
-                                    </ToggleButton>
-                                </ToggleButtonGroup>
+                                {userDetails.roles === 'BUYER' ? (<span class="text-info">{o.orderStatus}</span>) :
+                                    (<ToggleButtonGroup type="radio" name="statuses" defaultValue={o.orderStatus}
+                                        onChange={status => handleStatusChange(o.id, status)}
+                                    >
+                                        <ToggleButton id="tbg-radio-0" variant="outline-success" value={'Pending'} >
+                                            Pending
+                                        </ToggleButton>
+                                        <ToggleButton id="tbg-radio-2" variant="outline-success" value={'Shipped'}>
+                                            Shipped
+                                        </ToggleButton>
+                                        <ToggleButton id="tbg-radio-1" variant="outline-success" value={'On the way'} >
+                                            On the way
+                                        </ToggleButton>
+                                        <ToggleButton id="tbg-radio-3" variant="outline-success" value={'Delivered'}>
+                                            Delivered
+                                        </ToggleButton>
+                                    </ToggleButtonGroup>)}
                             </td>
                             <td>
                                 <Button
