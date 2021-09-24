@@ -41,7 +41,10 @@ export const ReviewForm = (props) => {
 
     const saveReview = async () => {
         try {
-            await apiService.post(`products/${id}/reviews`, review)
+            await apiService.post(`products/${id}/reviews`, review, {
+                successMessage: `Successfully saved your review. It will be shown after the admin's approval`
+            });
+            
             handleCancel();
             if(props.onSave) {
                 props.onSave();
